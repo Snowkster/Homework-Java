@@ -1,16 +1,19 @@
 package com.chessmaster.pieces;
 
 import com.chessmaster.config.PieceColor;
+import com.chessmaster.manager.GameBoard;
 
 public abstract class Piece {
 	
 	
-	protected String color;
+	public String color;
 	protected int power;
 	protected int id;
 	
 	protected int row;
 	protected int col;
+	
+	protected  int points = 10;
 
 	protected String signature;
 	
@@ -52,6 +55,72 @@ public abstract class Piece {
 		return this.col;
 	}
 	
+	public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+    
+    int posicion(int value, int min, int max) {
+        if (value <= min) return min;
+        if (value >= max) return max;
+        return value;
+    }
+    
+    
+    public boolean isSomethingBlockingTheWay(int moveRow, int moveCol) {
+        int row = posicion(moveRow - this.row, -1, 1);
+        int col = posicion(moveCol - this.col, -1, 1);
+
+        while (true) {
+
+            try {
+                if (GameBoard.board[moveRow][moveCol] != null) {
+                    return false;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return false;
+            }
+
+            moveRow = moveRow - row;
+
+            moveCol = moveCol - col;
+            if (moveRow == this.row && moveCol == this.col) {
+
+                break;
+            }
+            try {
+                if (GameBoard.board[moveRow][moveCol] != null) {
+                    return false;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return false;
+            }
+
+
+        }
+
+        return true;
+    }
+    
+    public boolean isSomethingToTake(int moveRow, int moveCol) {
+		if (GameBoard.board[moveRow][moveCol] != null
+				&& GameBoard.board[moveRow][moveCol].color != this.color){
+			return  true;}
+		
+		return false;
+	}
+	
 	public abstract String getImage ();
 	
 	public String getSignature() {
@@ -60,6 +129,10 @@ public abstract class Piece {
 				? ("w" + this.signature)
 			    : ("b" + this.signature);
 	}
+	
+	public boolean isAttackValid(int moveRow, int moveCol) {
+        return true;
+    }
 	
 	public abstract boolean isMoveActionValid(int row, int col);
 	

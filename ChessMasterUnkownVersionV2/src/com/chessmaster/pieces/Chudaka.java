@@ -1,5 +1,7 @@
 package com.chessmaster.pieces;
 
+import com.chessmaster.manager.GameBoard;
+
 public class Chudaka 
 			extends Piece 
 			implements Blastable {
@@ -10,16 +12,20 @@ public class Chudaka
 		this.power 	= 15;
 		this.id 	= 7;
 	}
-
+	
 	@Override
 	public void move(int row, int col) {
-		// TODO Auto-generated method stub
+		if(isMoveActionValid(row, col)) {
+			
+			this.row = row;
+			this.col = col;
+		}
 		
 	}
 
 	@Override
 	public void attack(int row, int col) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

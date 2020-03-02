@@ -1,6 +1,9 @@
 
 package com.chessmaster.manager;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import com.chessmaster.config.PieceColor;
 import com.chessmaster.pieces.*;
 
@@ -15,6 +18,9 @@ public class GameBoard {
 	public static final int INIT_BOARD_WHITE_EXTRA_PIECE_POCITION = 8;
 	public static final int INIT_BOARD_BLACK_EXTRA_PIECE_POCITION = 1; 
 	public static Piece activePiece;
+	public static int whitePoints = 0;
+	public static int blackPoints = 0;
+	private String currentColor = PieceColor.WHITE;
 	
 	public static void init() {
 		
@@ -44,11 +50,6 @@ public class GameBoard {
 	}
 	
 	public static boolean isPieceSelectable(int row, int col) {
-		
-//		if(!isPlayable()) { // color of the active piece
-//			return false;
-//		}
-		
 		return board[row][col] != null;
 	}
 	
@@ -60,12 +61,10 @@ public class GameBoard {
 		return activePiece.isMoveActionValid(row, col);
 	}
 	
-	// Bad design
 	public static void move(int row, int col) {
 		
-		// int currentRow = activePiece.row;
 		int currentRow = activePiece.getRow();
-		// int currentCol = activePiece.col;
+		
 		int currentCol = activePiece.getCol();
 		
 		board[row][col] = activePiece;
@@ -73,6 +72,29 @@ public class GameBoard {
 		
 		 board[currentRow][currentCol] = null;
 	}
+	
+	public void paint(Graphics g) {
+
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                render();
+            }
+        }
+        g.setColor(Color.gray);
+        g.fillRect(500,20,90,250);
+        g.setColor(Color.black);
+        g.drawString("Current Player",500,50);
+        g.drawString("Black Points",505,125);
+        g.drawString(String.valueOf(blackPoints),530,150);
+        g.drawString("White Points",505,200);
+        g.drawString(String.valueOf(whitePoints),530,220);
+        if(currentColor == PieceColor.WHITE){
+            g.setColor(Color.white);
+        } else {g.setColor(Color.black);}
+
+        g.fillRect(525,65,25,25);
+
+    }
 	
 	public static void render() {
 		

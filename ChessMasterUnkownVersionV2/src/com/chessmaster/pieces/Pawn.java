@@ -1,6 +1,7 @@
 package com.chessmaster.pieces;
 
 import com.chessmaster.config.PieceColor;
+import com.chessmaster.manager.GameBoard;
 
 public class Pawn extends Piece {
 
@@ -44,6 +45,14 @@ public class Pawn extends Piece {
 	public void attack(int row, int col) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean isSomethingToTake(int moveRow, int moveCol) {
+		if (GameBoard.board[moveRow][moveCol] != null
+				&& GameBoard.board[moveRow][moveCol].color != this.color){
+			return  true;}
+		
+		return false;
 	}
 	
 	public String getImage() {

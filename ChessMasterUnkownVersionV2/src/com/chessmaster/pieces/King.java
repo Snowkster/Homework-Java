@@ -1,6 +1,7 @@
 package com.chessmaster.pieces;
 
 import com.chessmaster.config.PieceColor;
+import com.chessmaster.manager.GameBoard;
 
 public class King extends Piece {
 	
@@ -13,7 +14,13 @@ public class King extends Piece {
 
 	@Override
 	public void move(int row, int col) {
-		// TODO Auto-generated method stub
+		if(isMoveActionValid(row, col)) {
+			System.out.println("Is move!");
+			GameBoard.board[row][col] = GameBoard.board[this.row][this.col];
+			GameBoard.board[this.row][this.col] = null;
+			this.row = row;
+			this.col = col;
+		}
 		
 	}
 
@@ -26,6 +33,14 @@ public class King extends Piece {
 	@Override
 	public boolean isMoveActionValid(int row, int col) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean isSomethingToTake(int moveRow, int moveCol) {
+		if (GameBoard.board[moveRow][moveCol] != null
+				&& GameBoard.board[moveRow][moveCol].color != this.color){
+			return  true;}
+		
 		return false;
 	}
 	

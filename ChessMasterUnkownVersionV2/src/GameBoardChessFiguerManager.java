@@ -15,7 +15,7 @@ import com.chessmaster.manager.GameBoard;
 import static com.chessmaster.manager.GameBoard.board;
 import static com.chessmaster.manager.GameBoard.MouseClick;
 
-public class GameBoardChessFiguerManager {
+public class GameBoardChessFiguerManager extends JPanel{
 
 	private final int TILE = 50;
     private boolean pieeceSelected = false;
@@ -203,6 +203,31 @@ public class GameBoardChessFiguerManager {
                 ex.printStackTrace();
             }
             g.drawImage(myPicture, tileX, tileY, null);
+        }
+    }
+    
+    public void attack() {
+        if (pieeceSelected) {
+
+
+            if (board[currentRow][curretCol].isAttackValid(selectedRow, selectedCol) &&
+                    board[currentRow][curretCol].isSomethingToTake(selectedRow,selectedCol)
+            ) {
+            	pieeceSelected = false;
+            	
+                if(currentPlayerColor==PieceColor.WHITE){
+                    GameBoard.whitePoints+=board[selectedRow][selectedCol].getPoints();
+                } else  {GameBoard.blackPoints+=board[selectedRow][selectedCol].getPoints();}
+                board[currentRow][curretCol].attack(selectedRow, selectedCol);
+
+                if (currentPlayerColor == PieceColor.WHITE) {
+                    currentPlayerColor = PieceColor.BLACK;
+                } else {
+                    currentPlayerColor = PieceColor.WHITE;
+                }
+
+            }
+
         }
     }
 
